@@ -9,3 +9,14 @@
   font-style: normal;
   src: url(../../../resources/fonts/Nekst-Black.woff2) format('woff2');
 }
+
+.page-header {
+  max-width: 753px;
+
+  h1 {
+    font-family: $font-primary;
+    font-weight: 900;
+    font-size: 54px;
+    line-height: 90%;
+  }
+}

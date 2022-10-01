@@ -1,3 +1,48 @@
-.page-header {
-  font-family: $font-primary;
+.calc {
+  width: 100%;
+
+  .calc__form {
+    display: flex;
+  
+    .form__field {
+      display: flex;
+      flex-direction: column;
+      width: auto;
+
+      label {
+        font-family: $font-secondary;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .row {
+    display: flex;
+
+    .calc__result {
+      display: flex;
+  
+      .result {
+  
+        .result__label {
+          font-family: $font-secondary;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 150%;
+        }
+      }
+    }
+  
+    .calc__submit {
+      font-family: $font-primary;
+      font-style: normal;
+      font-weight: 900;
+      font-size: 30px;
+      line-height: 36px;
+    }  
+  }
 }

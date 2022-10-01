@@ -21,7 +21,7 @@ class App {
   render() {
     this.root.innerHTML = `
       <header class="page-header">
-      Рассчитайте стоимость автомобиля в лизинг
+        <h1>Рассчитайте стоимость автомобиля в лизинг</h1>
       </header>
       <main class="page-content">
       </main>
