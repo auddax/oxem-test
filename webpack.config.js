@@ -28,6 +28,12 @@ const baseConfig = {
           },
         ],
       },
+      {
+        test: /\.(woff|woff2)$/,
+        use: {
+          loader: 'url-loader',
+        },
+      },
     ],
   },
   resolve: {
@@ -46,7 +52,7 @@ const baseConfig = {
         filename: 'index.html',
     }),
     new EslingPlugin({ extensions: 'ts' }),
-    new CopyWebpackPlugin({ patterns: [{ from: './src/resources/img', to: 'img' }] }),
+    // new CopyWebpackPlugin({ patterns: [{ from: './src/resources/fonts', to: 'fonts' }] }),
   ],
 };
 
