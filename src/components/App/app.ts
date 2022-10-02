@@ -11,12 +11,12 @@ class App {
     this.calc = new Calc();
   }
 
-  // listen(): void {
-  //   this.root.addEventListener('click', (event) => {
-  //     const target = event.target as HTMLElement;
-  //     this.calc.listen(target);
-  //   });
-  // }
+  listen(): void {
+    this.root.addEventListener('input', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      this.calc.listenInput(target);
+    });
+  }
 
   render() {
     this.root.innerHTML = `
