@@ -126,6 +126,7 @@
         width: calc(100% - 48px);
         margin: 9px auto;
         background-color: $color-text-light;
+        height: 2px;
         -webkit-appearance: none;
       }
       
@@ -154,7 +155,6 @@
       }
 
       input[type=range]::-moz-range-track {
-        background: $color-text-light;
         border: 0.2px solid rgba(0, 0, 0, 0);
         border-radius: 1.3px;
         width: 100%;
@@ -255,19 +255,9 @@
         font-size: 54px;
         line-height: 90%;
 
-        span {
-          position: relative;
-          top: -6px;
-        }
-
         @media screen and (max-width: $screen-small) {
           font-size: 22px;
           line-height: 20px;
-
-          span {
-            position: relative;
-            top: -2px;
-          }
         }
       }
     }
