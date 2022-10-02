@@ -1,4 +1,5 @@
 import environment from '../../environment/environment';
+import fillInputTrack from '../../utils/utils';
 import './calc.scss';
 
 class Calc {
@@ -26,6 +27,7 @@ class Calc {
   listenInput(target: HTMLInputElement): void {
     this.rangeInputHander(target);
     this.textInputHandler(target);
+    fillInputTrack(target);
   }
 
   listenClick(target: HTMLElement): void {
@@ -146,17 +148,23 @@ class Calc {
   renderOutputPayment() {
     const outputPayment = document.getElementById('outputPayment') as HTMLElement;
     this.payment = this.calcOutputPayment();
-    outputPayment.innerText = `${String(Math.round(this.payment))} ₽`;
+    outputPayment.innerHTML = `${String(Math.round(this.payment))} <span>₽</span>`;
   }
 
   renderOutputSum() {
     const outputSum = document.getElementById('outputSum') as HTMLElement;
     this.sum = this.calcOutputSum();
-    outputSum.innerText = `${String(Math.round(this.sum))} ₽`;
+    outputSum.innerHTML = `${String(Math.round(this.sum))} <span>₽</span>`;
   }
 
   render() {
     const main = document.querySelector('.page-content');
+    const pricePercentage = ((this.price - environment.priceMin)
+    / (environment.priceMax - environment.priceMin)) * 100;
+    const feePercentage = ((this.fee - environment.feeMin)
+    / (environment.feeMax - environment.feeMin)) * 100;
+    const termPercentage = ((this.term - environment.termMin)
+    / (environment.termMax - environment.termMin)) * 100;
     if (main) {
       main.innerHTML = `
         <section class="calc">
@@ -167,7 +175,7 @@ class Calc {
                 <input type="number" name="price" class="field__text field__input" id="priceText" value="${this.price}">
                 <div class="field__unit price-unit">₽</div>
               </div>
-              <input type="range" class="field__range" id="priceRange" value="${this.price}" min="${environment.priceMin}" max="${environment.priceMax}">
+              <input type="range" class="field__range" id="priceRange" value="${this.price}" min="${environment.priceMin}" max="${environment.priceMax}" style="background-image: linear-gradient(90deg, #FF9514 ${pricePercentage}%, transparent ${pricePercentage}%)">
             </div>
             <div class="form__field">
               <label for="fee" class="field__label">Первоначальный взнос</label>
@@ -175,7 +183,7 @@ class Calc {
                 <div class="field__text" id="feeCalculated">${this.feeCalculated}</div>
                 <input type="text" value="${this.fee}%" name="fee" class="field__unit field__text field__input fee-unit" id="feeText">
               </div>
-              <input type="range" class="field__range" id="feeRange" value="${this.fee}"min="${environment.feeMin}" max="${environment.feeMax}">
+              <input type="range" class="field__range" id="feeRange" value="${this.fee}"min="${environment.feeMin}" max="${environment.feeMax}" style="background-image: linear-gradient(90deg, #FF9514 ${feePercentage}%, transparent ${feePercentage}%)">
             </div>
             <div class="form__field">
               <label for="term" class="field__label">Срок лизинга</label>
@@ -183,7 +191,7 @@ class Calc {
                 <input type="number" name="term" class="field__text field__input" id="termText" value="${this.term}">
                 <div class="field__unit term-unit">мес.</div>
               </div>
-              <input type="range" class="field__range" id="termRange" value="${this.term}" min="${environment.termMin}" max="${environment.termMax}">
+              <input type="range" class="field__range" id="termRange" value="${this.term}" min="${environment.termMin}" max="${environment.termMax}" style="background-image: linear-gradient(90deg, #FF9514 ${termPercentage}%, transparent ${termPercentage}%)">
             </div>
           </form>
           <div class="calc__result">
@@ -192,7 +200,7 @@ class Calc {
                 Сумма договора лизинга
               </div>
               <div class="result__output" id="outputSum">
-                ${Math.round(this.sum)} ₽
+                ${Math.round(this.sum)} <span>₽</span>
               </div>
             </div>
             <div class="result">
@@ -200,7 +208,7 @@ class Calc {
                 Ежемесячный платеж от
               </div>
               <div class="result__output" id="outputPayment">
-                ${Math.round(this.payment)} ₽
+                ${Math.round(this.payment)} <span>₽</span>
               </div>
             </div>
             <button type="button" class="submit" id="submitRequest">Оставить заявку</button>
