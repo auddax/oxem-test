@@ -19,5 +19,9 @@
     font-weight: 900;
     font-size: 54px;
     line-height: 90%;
+
+    @media screen and (max-width: $screen-small) {
+      font-size: 34px;
+     }
   }
 }

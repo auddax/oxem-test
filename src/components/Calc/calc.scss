@@ -47,6 +47,13 @@
             border: 1px solid #F3F3F4;
             background-color: #FFFFFF;
           }
+
+          @media screen and (max-width: $screen-small) {
+            height: 60px;
+            padding: 20px;
+            font-size: 22px;
+            line-height: 20px;
+           }
         }
   
         .field__unit {
@@ -57,6 +64,7 @@
           font-weight: 900;
           font-size: 30px;
           line-height: 36px;
+          text-align: center;
           z-index: 10;
   
           &.price-unit {
@@ -82,6 +90,13 @@
             right: 7px;
             border-radius: 16px;
             background-color: #EBEBEC;
+
+            @media screen and (max-width: $screen-small) {
+              top: 6px;
+              right: 6px;
+              height: 48px;
+             }
+  
           }
 
           &.term-unit {
@@ -91,6 +106,11 @@
             top: 16px;
             right: 24px;
           }
+
+          @media screen and (max-width: $screen-small) {
+            font-size: 22px;
+            line-height: 28px;
+           }
         }  
       }
 
@@ -191,7 +211,15 @@
       input[type=range]:focus::-ms-fill-upper {
         background: $color-text-light;
       }
+
+      @media screen and (max-width: $screen-large) {
+        width: 100%;
+       }
     }
+
+    @media screen and (max-width: $screen-large) {
+      flex-direction: column;
+     }
   }
 
   .calc__result {
@@ -221,6 +249,11 @@
         font-weight: 900;
         font-size: 54px;
         line-height: 90%;
+
+        @media screen and (max-width: $screen-small) {
+          font-size: 22px;
+          line-height: 20px;
+         }
       }
     }
   
@@ -252,6 +285,21 @@
       &.disabled {
         background-color: $color-input-light;
       }
+
+      @media screen and (max-width: $screen-large) {
+        margin: 0 200px 0 0;
+        max-width: 345px;
+       }
+
+       @media screen and (max-width: $screen-small) {
+        margin: 0;
+        max-width: 345px;
+        min-width: 280px;
+        font-size: 22px;
+        line-height: 20px;
+        height: 60px;
+       }
     }  
   }
+
 }

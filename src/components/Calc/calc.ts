@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import environment from '../../environment/environment';
 import './calc.scss';
 
@@ -93,7 +92,7 @@ class Calc {
   }
 
   async submitRequest(target: HTMLElement) {
-    if (target.id !== 'submitRequest' && !target.classList.contains('disabled')) return;
+    if (target.id !== 'submitRequest' || target.classList.contains('disabled')) return;
 
     target.classList.add('disabled');
     const myHeaders = new Headers();

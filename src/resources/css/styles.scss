@@ -8,10 +8,22 @@ $color-text-strong: #333333;
 $color-text-medium: #575757;
 $color-text-light: #F3F3F4;
 
+$screen-large: 1024px;
+$screen-medium: 768px;
+$screen-small: 320px;
+
 body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
   justify-content: center;
   margin: 0 47px;
+
+  @media screen and (max-width: $screen-medium) {
+    margin: 64px 36px 156px;
+  }
+
+  @media screen and (max-width: $screen-small) {
+    margin: 44px 20px 64px;
+  }
 }
