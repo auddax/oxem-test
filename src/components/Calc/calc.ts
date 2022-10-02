@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable class-methods-use-this */
 import environment from '../../environment/environment';
 import './calc.scss';
 
@@ -8,15 +6,21 @@ class Calc {
 
   fee: number;
 
+  term: number;
+
   feeCalculated: number;
 
-  term: number;
+  sum: number;
+
+  payment: number;
 
   constructor() {
     this.price = environment.priceDefault;
     this.fee = environment.feeDefault;
-    this.feeCalculated = this.fee * this.price;
     this.term = environment.termDefault;
+    this.feeCalculated = this.calcInitialFee();
+    this.payment = this.calcOutputPayment();
+    this.sum = this.calcOutputSum();
   }
 
   listenInput(target: HTMLInputElement): void {
@@ -29,11 +33,11 @@ class Calc {
     const targetId = target.id;
     const groupParentElement = document.getElementById(targetId)?.parentElement;
     const textInputElement = groupParentElement?.querySelector('.field__input') as HTMLInputElement;
-    // if (target.id === 'feeRange') {
-    //   textInputElement.value = `${target.value}%`;
-    // } else {
-    //   textInputElement.value = target.value;
-    // }
+    if (target.id === 'feeRange') {
+      textInputElement.value = `${target.value}%`;
+    } else {
+      textInputElement.value = target.value;
+    }
 
     const priceInput = document.getElementById('priceText') as HTMLInputElement;
     const feeInput = document.getElementById('feeText') as HTMLInputElement;
@@ -55,31 +59,72 @@ class Calc {
       default:
         break;
     }
-    this.calcInitialFee();
+    this.renderInitialFee();
+    this.renderOutputPayment();
+    this.renderOutputSum();
   }
 
   textInputHandler(target: HTMLInputElement): void {
     if (!target.id.includes('Text')) return;
     switch (target.name) {
       case 'price':
-        this.price = Number(target.value);
+        this.price = Number(target.value) > environment.priceMax
+          ? environment.priceMax : Number(target.value);
         break;
       case 'fee':
-        this.fee = parseInt(target.value, 10) || 0;
+        this.fee = parseInt(target.value, 10) > environment.feeMax
+          ? environment.feeMax : parseInt(target.value, 10) || 0;
         break;
       case 'term':
-        this.term = Number(target.value);
+        this.term = Number(target.value) > environment.termMax
+          ? environment.termMax : Number(target.value);
         break;
       default:
         break;
     }
-    this.calcInitialFee();
+    this.renderInitialFee();
+    this.renderOutputPayment();
+    this.renderOutputSum();
   }
 
-  calcInitialFee() {
-    this.feeCalculated = this.fee * this.price;
+  calcInitialFee(): number {
+    const feeCalculated = Math.round(this.price * (this.fee / 100));
+    return feeCalculated;
+  }
+
+  calcOutputSum(): number {
+    const sum = this.feeCalculated + (this.term * this.payment);
+    return sum;
+  }
+
+  calcOutputPayment(): number {
+    const interestRate = environment.interestRate / 100;
+
+    const payment = (this.price - this.feeCalculated)
+      * (
+        (interestRate * ((1 + interestRate) ** this.term))
+        / (((1 + interestRate) ** this.term) - 1)
+      );
+
+    return payment;
+  }
+
+  renderInitialFee(): void {
     const feeCalculated = document.getElementById('feeCalculated') as HTMLElement;
-    feeCalculated.innerText = String(this.feeCalculated);
+    this.feeCalculated = this.calcInitialFee();
+    feeCalculated.innerText = String(Math.round(this.feeCalculated));
+  }
+
+  renderOutputPayment() {
+    const outputPayment = document.getElementById('outputPayment') as HTMLElement;
+    this.payment = this.calcOutputPayment();
+    outputPayment.innerText = `${String(Math.round(this.payment))} ₽`;
+  }
+
+  renderOutputSum() {
+    const outputSum = document.getElementById('outputSum') as HTMLElement;
+    this.sum = this.calcOutputSum();
+    outputSum.innerText = `${String(Math.round(this.sum))} ₽`;
   }
 
   render() {
@@ -94,7 +139,7 @@ class Calc {
                 <input type="number" name="price" class="field__text field__input" id="priceText" value="${this.price}">
                 <div class="field__unit price-unit">₽</div>
               </div>
-              <input type="range" class="field__range" id="priceRange" min="${environment.priceMin}" max="${environment.priceMax}">
+              <input type="range" class="field__range" id="priceRange" value="${this.price}" min="${environment.priceMin}" max="${environment.priceMax}">
             </div>
             <div class="form__field">
               <label for="fee" class="field__label">Первоначальный взнос</label>
@@ -102,7 +147,7 @@ class Calc {
                 <div class="field__text" id="feeCalculated">${this.feeCalculated}</div>
                 <input type="text" value="${this.fee}%" name="fee" class="field__unit field__text field__input fee-unit" id="feeText">
               </div>
-              <input type="range" class="field__range" id="feeRange" min="${environment.feeMin}" max="${environment.feeMax}">
+              <input type="range" class="field__range" id="feeRange" value="${this.fee}"min="${environment.feeMin}" max="${environment.feeMax}">
             </div>
             <div class="form__field">
               <label for="term" class="field__label">Срок лизинга</label>
@@ -110,7 +155,7 @@ class Calc {
                 <input type="number" name="term" class="field__text field__input" id="termText" value="${this.term}">
                 <div class="field__unit term-unit">мес.</div>
               </div>
-              <input type="range" class="field__range" id="termRange" min="${environment.termMin}" max="${environment.termMax}">
+              <input type="range" class="field__range" id="termRange" value="${this.term}" min="${environment.termMin}" max="${environment.termMax}">
             </div>
           </form>
           <div class="calc__result">
@@ -119,6 +164,7 @@ class Calc {
                 Сумма договора лизинга
               </div>
               <div class="result__output" id="outputSum">
+                ${Math.round(this.sum)} ₽
               </div>
             </div>
             <div class="result">
@@ -126,6 +172,7 @@ class Calc {
                 Ежемесячный платеж от
               </div>
               <div class="result__output" id="outputPayment">
+                ${Math.round(this.payment)} ₽
               </div>
             </div>
             <button type="button" class="submit">Оставить заявку</button>
