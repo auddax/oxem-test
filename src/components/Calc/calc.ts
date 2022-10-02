@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import environment from '../../environment/environment';
 import './calc.scss';
 
@@ -26,6 +27,10 @@ class Calc {
   listenInput(target: HTMLInputElement): void {
     this.rangeInputHander(target);
     this.textInputHandler(target);
+  }
+
+  listenClick(target: HTMLElement): void {
+    this.submitRequest(target);
   }
 
   rangeInputHander(target: HTMLInputElement): void {
@@ -85,6 +90,30 @@ class Calc {
     this.renderInitialFee();
     this.renderOutputPayment();
     this.renderOutputSum();
+  }
+
+  async submitRequest(target: HTMLElement) {
+    if (target.id !== 'submitRequest' && !target.classList.contains('disabled')) return;
+
+    target.classList.add('disabled');
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Accept', 'application/json');
+
+    const raw = JSON.stringify({
+      price: this.price,
+      fee: this.fee,
+      term: this.term,
+    });
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+    };
+
+    await fetch(environment.baseUrl, requestOptions);
+    target.classList.remove('disabled');
   }
 
   calcInitialFee(): number {
@@ -175,7 +204,7 @@ class Calc {
                 ${Math.round(this.payment)} ₽
               </div>
             </div>
-            <button type="button" class="submit">Оставить заявку</button>
+            <button type="button" class="submit" id="submitRequest">Оставить заявку</button>
           </div>
         </section>
       `;

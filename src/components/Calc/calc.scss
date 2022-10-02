@@ -215,7 +215,7 @@
       }
 
       .result__output {
-        color: $color-text-medium;
+        color: $color-text-strong;
         font-family: $font-primary;
         font-style: normal;
         font-weight: 900;
@@ -247,6 +247,10 @@
       &:active {
         background-color: $color-text-medium;
         color: #FFFFFF;
+      }
+
+      &.disabled {
+        background-color: $color-input-light;
       }
     }  
   }

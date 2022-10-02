@@ -16,6 +16,11 @@ class App {
       const target = event.target as HTMLInputElement;
       this.calc.listenInput(target);
     });
+
+    this.root.addEventListener('click', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      this.calc.listenClick(target);
+    });
   }
 
   render() {
