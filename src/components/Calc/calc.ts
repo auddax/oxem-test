@@ -72,22 +72,32 @@ class Calc {
 
   textInputHandler(target: HTMLInputElement): void {
     if (!target.id.includes('Text')) return;
+    const price = Number(target.value) > environment.priceMax
+      ? environment.priceMax : Number(target.value);
+
+    const fee = parseInt(target.value, 10) > environment.feeMax
+      ? environment.feeMax : parseInt(target.value, 10) || 0;
+
+    const term = Number(target.value) > environment.termMax
+      ? environment.termMax : Number(target.value);
+
     switch (target.name) {
       case 'price':
-        this.price = Number(target.value) > environment.priceMax
-          ? environment.priceMax : Number(target.value);
+        this.price = price < environment.priceMin
+          ? environment.priceMin : price;
         break;
       case 'fee':
-        this.fee = parseInt(target.value, 10) > environment.feeMax
-          ? environment.feeMax : parseInt(target.value, 10) || 0;
+        this.fee = fee < environment.feeMin
+          ? environment.feeMin : fee;
         break;
       case 'term':
-        this.term = Number(target.value) > environment.termMax
-          ? environment.termMax : Number(target.value);
+        this.term = term < environment.termMin
+          ? environment.termMin : term;
         break;
       default:
         break;
     }
+
     this.renderInitialFee();
     this.renderOutputPayment();
     this.renderOutputSum();
