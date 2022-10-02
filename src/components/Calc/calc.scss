@@ -41,6 +41,12 @@
           font-weight: 900;
           font-size: 30px;
           line-height: 36px;
+
+          &:focus {
+            outline: none;
+            border: 1px solid #F3F3F4;
+            background-color: #FFFFFF;
+          }
         }
   
         .field__unit {
@@ -231,6 +237,17 @@
       color: #FFFFFF;
       height: 68px;
       border: 0;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color-text-dark;
+        color: #FFFFFF;
+      }
+
+      &:active {
+        background-color: $color-text-medium;
+        color: #FFFFFF;
+      }
     }  
   }
 }
