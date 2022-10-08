@@ -150,8 +150,16 @@
         background: $color-input-medium;
         border: 0px solid rgba(0, 0, 0, 0);
         border: 0;
-        border-radius: 10px;
+        border-radius: 50%;
+        transition: all 0.3s;
         cursor: pointer;
+
+        &:hover {
+          width: 24px;
+          height: 24px;
+          margin-top: -11.2px;
+          transition: all 0.3s;
+        }
       }
 
       input[type=range]::-moz-range-track {
@@ -173,7 +181,15 @@
         border: 0px solid rgba(0, 0, 0, 0);
         border: 0;
         border-radius: 10px;
+        transition: all 0.3s;
         cursor: pointer;
+
+        &:hover {
+          width: 24px;
+          height: 24px;
+          margin-top: -11.2px;
+          transition: all 0.3s;
+        }
       }
       
       input[type=range]::-ms-track {
@@ -205,8 +221,16 @@
         border: 0px solid rgba(0, 0, 0, 0);
         border: 0;
         border-radius: 10px;
-        cursor: pointer;
         margin-top: 0px;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          width: 24px;
+          height: 24px;
+          margin-top: -11.2px;
+          transition: all 0.3s;
+        }
       }
       
       input[type=range]:focus::-ms-fill-lower {
@@ -294,6 +318,7 @@
       @media screen and (max-width: $screen-large) {
         margin: 0 200px 0 0;
         max-width: 345px;
+        min-width: 280px;
        }
 
        @media screen and (max-width: $screen-small) {
